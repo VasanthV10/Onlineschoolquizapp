@@ -1,7 +1,7 @@
 # Onlineschoolquizapp
 Develop a project for Online quiz for school Competition
 
-Django==3.6.0
+Django==3.0.8
 
 django-crispy-forms==1.7.0
 
