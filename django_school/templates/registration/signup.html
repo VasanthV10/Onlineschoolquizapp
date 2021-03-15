@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+<head>
+</head>
+<body style= "background-color : lightpink;text-align : center">
+  <h2 style = "color : green">Sign up for a teacher or student account</h2>
+  <p style = "color : grey">Select the type of account you want to create</p>
+  <a href="{% url 'student_signup' %}" class="w3-button w3-bar-item" style = "background-color : violet" role="button">I'm a student</a>
+  <a href="{% url 'teacher_signup' %}" class="w3-button w3-bar-item" style = "background-color : magenta" role="button">I'm a teacher</a>
+</body>
+</html>

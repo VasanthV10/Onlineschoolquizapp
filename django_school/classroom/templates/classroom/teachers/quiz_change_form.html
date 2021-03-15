@@ -1,0 +1,104 @@
+
+{% load crispy_forms_tags %}
+<html>
+<head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+<style>
+body {font-family: Arial;
+  		color : purple;
+        background-color : #FAEBD7;
+	}
+	form {border: 3px solid lightblue;}
+
+	input[type=text], input[type=password] {
+	  width: 50%;
+	  padding: 12px 20px;
+	  margin: 8px 0;
+	  display: inline-block;
+	  border: 3px inset blue;
+	  box-sizing: border-box;
+	}
+	button {
+	  background-color: #054389;
+	  color: white;
+	  padding: 14px 20px;
+	  margin: 8px 0;
+	  border: none;
+	  cursor: pointer;
+	  width: 100%;
+	}
+
+	button:hover {
+	  opacity: 0.8;
+	}
+	.container {
+	  padding: 16px;
+	}	
+	</style>
+	</head>
+	<body>
+{% block content %}
+<nav class="w3-bar w3-purple">
+  <a href="{% url 'home' %}" class="w3-button w3-bar-item">Home</a>
+  <a href="{% url 'teachers:quiz_change_list' %}" class="w3-button w3-bar-item">MyQuizes</a>
+  {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="w3-button w3-bar-item" style="float:right">signout</a>
+            <a class="w3-bar-item" style="float:right"> you are Logged in as {{ user.username }} </a>
+        {% else %}
+            <a href="{% url 'login' %}" class="w3-button w3-bar-item" style="float:right" role="button">Log in</a>
+            <a href="{% url 'signup' %}" class="w3-button w3-bar-item" style="float:right" role="button">Sign up</a>
+        {% endif %}
+</nav>
+  <nav aria-label="breadcrumb">
+      <b><class="breadcrumb-item active" aria-current="page">Student Name : {{ quiz.name }}</b>
+  </nav>
+    <a href="{% url 'teachers:quiz_results' quiz.pk %}" class="w3-button w3-bar-item" style="float:right;background-color:green" role="button">View Results</a>
+  <br><br>
+    </h2>
+  <div class="row mb-3">
+    <div class="container">
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Save changes</button>
+        <a href="{% url 'teachers:quiz_change_list' %}" class="w3-button w3-bar-item" style="background-color:lightgreen" role="button">Back</a>
+        <a href="{% url 'teachers:quiz_delete' quiz.pk %}" class="w3-button w3-bar-item" style="background-color:grey" float-right">Delete</a>
+      </form>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-10">
+          <strong>Questions</strong>
+        </div>
+        <div class="col-2">
+          <strong>Answers</strong>
+        </div>
+      </div>
+    </div>
+    <div class="list-group list-group-flush list-group-formset">
+      {% for question in questions %}
+        <div class="list-group-item">
+          <div class="row">
+            <div class="col-10">
+              <a href="{% url 'teachers:question_change' quiz.pk question.pk %}">{{ question.text }}</a>
+            </div>
+            <div class="col-2">
+              {{ question.answers_count }}
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="list-group-item text-center">
+          <p class="text-muted font-italic mb-0">You haven't created any questions yet. Go ahead and <a href="{% url 'teachers:question_add' quiz.pk %}">add the first question</a>.</p>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="card-footer">
+      <a href="{% url 'teachers:question_add' quiz.pk %}" class="w3-button w3-bar-item" style="background-color:blue; color: white">Add question</a>
+    </div>
+  </div>
+{% endblock %}
+</body>
+</html>
